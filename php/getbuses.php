@@ -1,4 +1,10 @@
 <?php
+	/* 
+
+	Gets NextBus location data for MBTA buses and saves it in a database.
+
+	*/
+
 	$data = simplexml_load_file("http://webservices.nextbus.com/service/publicXMLFeed?command=vehicleLocations&a=mbta&t=0");
 	$time = round($data->lastTime['time']/1000);
 
