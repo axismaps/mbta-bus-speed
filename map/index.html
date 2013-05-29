@@ -1,0 +1,103 @@
+<html>
+	<head>
+		<link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700|PT+Serif' rel='stylesheet' type='text/css'>
+		<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.css" />
+		<link rel="stylesheet" href="bus.css" />
+		<link rel="image_src" href="thumb.jpg" />
+		<!--[if lte IE 8]>
+		 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.ie.css" />
+		<![endif]-->
+		<script src="http://cdn.leafletjs.com/leaflet-0.5/leaflet.js"></script>
+		<title>MBTA Bus Speeds | Bostonography</title>
+	</head>
+	<body>
+		 <div id="map"></div>
+		 <div id="panel">
+		 	<h1>MBTA Bus Speeds</h1>
+		 	<p id="time-period">NOW</p>
+		 	<p id="time-meta">Bus locations and speeds for the past 3 hours.<br/>Last update: 6pm May 28</p>
+		 	<p id="time-toggle">VIEW YESTERDAY (24 hours)</p>
+		 	<div id="legend">
+		 		<p class='legend'><span id="red">RED</span>:&nbsp; &lt; 10 mph</p>
+		 		<p class='legend'><span id="yellow">YELLOW</span>:&nbsp; 10&ndash;25 mph</p>
+		 		<p class='legend'><span id="green">GREEN</span>:&nbsp; > 20 mph</p>
+		 	</div>
+		 	<p id="show-more">What is this thing?</p>
+		 	<p id="more"><strong>This thing is a map of MBTA bus locations and speeds, based on real-time GPS data.</strong> Each path is traced and colored along the way according to speed of travel, in a style inspired by some of <a href='http://www.flickr.com/photos/walkingsf/4521616274/' target='_blank'>Eric Fischer's maps</a>. The map shows either the most recent three hours of data (updated every hour) or the full 24 hours of data from yesterday. Come back at different times and see how the patterns change. You'll see different speed patterns at rush hour than other times of day, different routes appearing on weekdays than on weekends, and so on.<br/><br/>You'll probably notice how (beautifully, we'd say!) nebulous everything looks. This is the nature of the GPS data. Sometimes it's not precise, sometimes it disappears for a while (in a tunnel, for instance), and sometimes the locations are not reported frequently enough to capture all the curves and turns of a route. Thus each bus route appears as a bundle of close but unique lines.<br/><br/>This map is based only on the discrete location reports from buses, which occur at regular intervals. This means that speeds are calculated based on straight-line distances between those points, not on the actual distance traveled by the buses. In some areas, therefore, speed is a little underestimated because the bus followed actual crazy Boston streets, not that straight shortest-distance path. Note also that the speeds are overall averages that include stops, not solely moving speed.<br/><br/>For more about this map and others in the same project, see our <a href="http://bostonography.com/2013/live-mbta-bus-speeds/" target="_blank">post about them</a>.</p>
+		 </div>
+		 <script>
+		 	var time = new Date().getTime();
+		 	var map = L.map('map',{
+		 		zoomControl: false
+		 	}).setView([42.3583, -71.0603], 11);
+		 	L.control.zoom({position:"topright"}).addTo(map);
+		 	L.tileLayer('images/tiles/mbtiles.php?db=boston.mbtiles&z={z}&x={x}&y={y}', {
+		 		tms: true,
+			    maxZoom: 14,
+			    minZoom: 11,
+			    attribution: "Base map data &copy; <a href='http://openstreetmap.org' target='_blank'>OpenStreetMap</a>."
+			}).addTo(map);
+		 	var now = L.tileLayer('images/tiles/bus/{z}-{x}-{y}.png?t='+time, {
+			    maxZoom: 14,
+			    minZoom: 11,
+			    bounds: L.latLngBounds( L.latLng(42.032,-71.3672), L.latLng(42.6825,-70.8397) )
+			}).addTo(map);
+			var yesterday = L.tileLayer('images/tiles/bus/yesterday/{z}-{x}-{y}.png?t='+time, {
+			    maxZoom: 14,
+			    minZoom: 11,
+			    bounds: L.latLngBounds( L.latLng(42.032,-71.3672), L.latLng(42.6825,-70.8397) )
+			});
+
+			document.getElementById("map").style.position = "fixed";
+
+			var h = new Date().getHours(),
+				hour;
+			if ( h == 0 ){
+				hour = "12am"
+			} else if ( h > 12 ){
+				hour = (h - 12) + "pm"
+			} else if ( h == 12 ){
+				hour = "12pm";
+			} else {
+				hour = h + "am";
+			}
+			document.getElementById("time-meta").innerHTML = "Bus locations and speeds for the past 3 hours.<br/>Last update: " + hour;
+
+			document.getElementById("show-more").onclick = function(){
+				var el = document.getElementById("more");
+				if ( el.style.display != "block" ) el.style.display = "block";
+				else el.style.display = "none";
+			}
+
+			document.getElementById("time-toggle").onclick = function(){
+				var d = new Date();
+				if ( map.hasLayer( now ) ){
+					map.removeLayer(now);
+					map.addLayer(yesterday);
+					this.innerHTML = "VIEW MOST RECENT (past 3 hours)";
+					document.getElementById("time-period").innerHTML = "YESTERDAY";
+					var d2 = new Date();
+					d2.setDate( d.getDate()-1 );
+					document.getElementById("time-meta").innerHTML = "Bus locations and speeds over 24 hours.<br/>"+d2.toDateString();
+				} else {
+					map.removeLayer(yesterday);
+					map.addLayer(now);
+					this.innerHTML = "VIEW YESTERDAY (24 hours)";
+					document.getElementById("time-period").innerHTML = "NOW";
+					var h = d.getHours(),
+						hour;
+					if ( h == 0 ){
+						hour = "12am"
+					} else if ( h > 12 ){
+						hour = (h - 12) + "pm"
+					} else if ( h == 12 ){
+						hour = "12pm";
+					} else {
+						hour = h + "am";
+					}
+					document.getElementById("time-meta").innerHTML = "Bus locations and speeds for the past 3 hours.<br/>Last update: " + hour;
+				}
+			}
+		 </script>
+	</body>
+<html>

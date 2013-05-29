@@ -1,0 +1,97 @@
+html, body {
+	margin: 0;
+	width: 100%;
+	height: 100%;
+	font: 13px / 16px 'PT Sans', sans-serif;
+}
+
+#map {
+	height: 100%;
+	width: 100%;
+	background-color:#333;
+}
+
+#panel {
+	position: absolute;
+	z-index: 999;
+	top: 15px;
+	left: 15px;
+	width: 310px;
+	background-color: #888;
+	border-radius: 10px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	box-shadow: 0 0 8px #000;
+	-webkit-box-shadow: 0 0 8px #000;
+	-moz-box-shadow: 0 0 8px #000;
+	border: 1px solid black;
+}
+
+#panel h1{
+	font-size: 36px;
+	text-align: center;
+}
+
+#panel p {
+	margin: 10px;
+	color: #222;
+}
+
+#panel p#time-period {
+	font-weight: bold;
+	font-size: 18px;
+	margin-bottom: 0;
+	text-align: center;
+}
+
+#panel p#time-meta {
+	margin-top: 0;
+	text-align: center;
+}
+
+#panel p#time-toggle, #panel p#show-more{
+	font-weight: bold;
+	cursor: pointer;
+}
+
+#panel p#time-toggle:hover, #panel p#show-more:hover {
+	text-decoration: underline;
+}
+
+#red { color: rgb(200,40,40); }
+#yellow { color: rgb(255,244,50); }
+#green { color: rgb(0,240,128); }
+
+#legend{
+	background-color: #333;
+	border-radius: 10px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	margin: 10px;
+	padding: 5px 10px;
+}
+
+#panel p.legend{
+	margin: 0;
+	line-height: 18px;
+	color: #888;
+}
+
+#panel p.legend span{
+	font-weight: bold;
+}
+
+
+#panel p#more{
+	font-size: 12px;
+	line-height: 14px;
+	display: none;
+	transition: height .5s;
+	-webkit-transition: height .5s;
+	-moz-transition: height .5s;
+}
+
+a {
+	color: #222;
+	text-decoration: underline;
+}
