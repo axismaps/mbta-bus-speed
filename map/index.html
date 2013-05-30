@@ -8,6 +8,7 @@
 		 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.ie.css" />
 		<![endif]-->
 		<script src="http://cdn.leafletjs.com/leaflet-0.5/leaflet.js"></script>
+        <script src="http://calvinmetcalf.github.io/leaflet-hash/leaflet-hash.js"></script>
 		<title>MBTA Bus Speeds | Bostonography</title>
 	</head>
 	<body>
@@ -29,7 +30,7 @@
 		 	var time = new Date().getTime();
 		 	var map = L.map('map',{
 		 		zoomControl: false
-		 	}).setView([42.3583, -71.0603], 11);
+		 	}).setView([42.3583, -71.0603], 11).addHash();
 		 	L.control.zoom({position:"topright"}).addTo(map);
 		 	L.tileLayer('images/tiles/mbtiles.php?db=boston.mbtiles&z={z}&x={x}&y={y}', {
 		 		tms: true,
@@ -42,7 +43,7 @@
 			    minZoom: 11,
 			    bounds: L.latLngBounds( L.latLng(42.032,-71.3672), L.latLng(42.6825,-70.8397) )
 			}).addTo(map);
-			var yesterday = L.tileLayer('images/tiles/bus/yesterday/{z}-{x}-{y}.png?t='+time, {
+			var yesterday = L.tileLayer('http://bostonography.com/busimages/tiles/bus/yesterday/{z}-{x}-{y}.png?t='+time, {
 			    maxZoom: 14,
 			    minZoom: 11,
 			    bounds: L.latLngBounds( L.latLng(42.032,-71.3672), L.latLng(42.6825,-70.8397) )
