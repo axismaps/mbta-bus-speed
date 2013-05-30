@@ -30,7 +30,10 @@
 		 	var time = new Date().getTime();
 		 	var map = L.map('map',{
 		 		zoomControl: false
-		 	}).setView([42.3583, -71.0603], 11).addHash();
+		 	}).addHash();
+		 	if(!location.hash){
+		 		map.setView([42.3583, -71.0603], 11);
+		 	}
 		 	L.control.zoom({position:"topright"}).addTo(map);
 		 	L.tileLayer('images/tiles/mbtiles.php?db=boston.mbtiles&z={z}&x={x}&y={y}', {
 		 		tms: true,
@@ -43,7 +46,7 @@
 			    minZoom: 11,
 			    bounds: L.latLngBounds( L.latLng(42.032,-71.3672), L.latLng(42.6825,-70.8397) )
 			}).addTo(map);
-			var yesterday = L.tileLayer('http://bostonography.com/busimages/tiles/bus/yesterday/{z}-{x}-{y}.png?t='+time, {
+			var yesterday = L.tileLayer('images/tiles/bus/yesterday/{z}-{x}-{y}.png?t='+time, {
 			    maxZoom: 14,
 			    minZoom: 11,
 			    bounds: L.latLngBounds( L.latLng(42.032,-71.3672), L.latLng(42.6825,-70.8397) )
