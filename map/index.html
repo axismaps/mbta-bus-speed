@@ -7,7 +7,6 @@
 		<!--[if lte IE 8]>
 		 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.ie.css" />
 		<![endif]-->
-		<script src="http://cdn.leafletjs.com/leaflet-0.5/leaflet.js"></script>
 		<title>MBTA Bus Speeds | Bostonography</title>
 	</head>
 	<body>
@@ -25,11 +24,16 @@
 		 	<p id="show-more">What is this thing?</p>
 		 	<p id="more"><strong>This thing is a map of MBTA bus locations and speeds, based on real-time GPS data.</strong> Each path is traced and colored along the way according to speed of travel, in a style inspired by some of <a href='http://www.flickr.com/photos/walkingsf/4521616274/' target='_blank'>Eric Fischer's maps</a>. The map shows either the most recent three hours of data (updated every hour) or the full 24 hours of data from yesterday. Come back at different times and see how the patterns change. You'll see different speed patterns at rush hour than other times of day, different routes appearing on weekdays than on weekends, and so on.<br/><br/>You'll probably notice how (beautifully, we'd say!) nebulous everything looks. This is the nature of the GPS data. Sometimes it's not precise, sometimes it disappears for a while (in a tunnel, for instance), and sometimes the locations are not reported frequently enough to capture all the curves and turns of a route. Thus each bus route appears as a bundle of close but unique lines.<br/><br/>This map is based only on the discrete location reports from buses, which occur at regular intervals. This means that speeds are calculated based on straight-line distances between those points, not on the actual distance traveled by the buses. In some areas, therefore, speed is a little underestimated because the bus followed actual crazy Boston streets, not that straight shortest-distance path. Note also that the speeds are overall averages that include stops, not solely moving speed.<br/><br/>For more about this map and others in the same project, see our <a href="http://bostonography.com/2013/live-mbta-bus-speeds/" target="_blank">post about them</a>.</p>
 		 </div>
+		 <script src="http://cdn.leafletjs.com/leaflet-0.5/leaflet.js"></script>
+		 <script src="http://calvinmetcalf.github.io/leaflet-hash/leaflet-hash.js"></script>
 		 <script>
 		 	var time = new Date().getTime();
 		 	var map = L.map('map',{
 		 		zoomControl: false
-		 	}).setView([42.3583, -71.0603], 11);
+		 	}).addHash();
+		 	if(!location.hash){
+		 		map.setView([42.3583, -71.0603], 11);
+		 	}
 		 	L.control.zoom({position:"topright"}).addTo(map);
 		 	L.tileLayer('images/tiles/mbtiles.php?db=boston.mbtiles&z={z}&x={x}&y={y}', {
 		 		tms: true,
