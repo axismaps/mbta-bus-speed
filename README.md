@@ -21,4 +21,4 @@ Creates map tiles by drawing images at several scales and cutting them up.
 map
 ---
 
-Simple Leaflet-based map, and mbtiles for a Boston basemap.
+Simple Leaflet-based map, and mbtiles for a Boston basemap. Tiles served using [PHP-MBTiles-Server](https://github.com/bmcbride/PHP-MBTiles-Server) by Bryan McBride.
